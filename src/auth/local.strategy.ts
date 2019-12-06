@@ -8,7 +8,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
   constructor(private readonly authService: AuthService) { 
     super();
-    Logger.log('LocalStr - const');
   }
 
   async validate(tckn: string, password: string): Promise<any> {
