@@ -20,7 +20,7 @@ export class UsersService {
       email: 'burak@dot.com'
     }
     Logger.log(`UserServ - findOne returning user ${user}`);
-
+    
     return user;
   }
 }

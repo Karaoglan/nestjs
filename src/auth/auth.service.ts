@@ -29,4 +29,12 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
     };
   }
+  
+  async signUp(user: UserDto): Promise<UserDto> {    
+    Logger.log(`AuthServ - signUp ${JSON.stringify(user)}`);
+
+    return user;
+  }
+
+
 }
