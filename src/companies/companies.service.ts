@@ -1,29 +1,24 @@
+import { Model } from 'mongoose';
 import { Injectable, Logger } from '@nestjs/common';
 import { CompanyDto } from './dto/company.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Company } from './interfaces/company.interface';
 
 @Injectable()
 export class CompaniesService {
+  
+  constructor(@InjectModel('Company') private readonly companyModel: Model<Company>) {}
+
   async createCompany(company: CompanyDto): Promise<CompanyDto> {
     Logger.log(`CompanyServ - create ${JSON.stringify(company)}`);
 
-    return new Promise(function(resolve, reject) {
-      return resolve(company);
-   })
+    const createdCompany = new this.companyModel(company);
+    return await createdCompany.save();
   }
 
   async getAll(): Promise<CompanyDto[] | []> {
     Logger.log(`CompanyServ - getAll`);
-    
-    let companies: CompanyDto[] = [
-      {
-        title: 'company1'
-      },
-      {
-        title: 'company2'
-      }
-    ]
-    Logger.log(`CompServ - get all returning companies ${companies}`);
-    
-    return companies;
+      
+    return await this.companyModel.find().exec();
   }
 }

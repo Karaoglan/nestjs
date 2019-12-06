@@ -11,16 +11,15 @@ export class UsersService {
    })
   }
 
-  async findOne(username: string): Promise<UserDto | undefined> {
-    Logger.log(`UserServ - findOne ${username}`);
+  async findOne(tckn: string): Promise<UserDto | undefined> {
+    Logger.log(`UserServ - findOne ${tckn}`);
     let user: UserDto = {
-      username: 'burak',
-      password: 'pass',
-      userId: '1',
+      password: '1',
+      tckn: '1',
       email: 'burak@dot.com'
     }
     Logger.log(`UserServ - findOne returning user ${user}`);
-    
+
     return user;
   }
 }
