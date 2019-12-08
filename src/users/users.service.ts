@@ -20,7 +20,7 @@ export class UsersService {
     }
 
     const createdUser = new this.userModel(user);
-    createdUser.status = Status.PENDING.toString();
+    createdUser.status = Status[Status.PENDING];
     return await createdUser.save();
   }
 

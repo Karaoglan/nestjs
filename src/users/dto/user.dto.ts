@@ -22,13 +22,13 @@ export class UserDto {
 	@IsDefined()
 	readonly surname: string;
 
-	readonly status: string;
+	status: string;
 	readonly phoneNumber: string;
 	
 	@IsDefined()
 	readonly companyId: string;
 
-	readonly password?: string;
+	password?: string;
 
 	readonly ethAddress?: string;
 

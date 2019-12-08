@@ -22,9 +22,7 @@ export class AuthService {
 
     if (user) {
       const isValid = await bcrypt.compare(pass, user.password);
-      const userLogin: UserLoginDto = null;
-      Object.assign(userLogin, user);
-      return isValid ? userLogin : null;
+      return isValid ? user as UserLoginDto : null;
     }
     return null;
   }
@@ -56,8 +54,10 @@ export class AuthService {
       throw new HttpException('could not crypt hash', HttpStatus.INTERNAL_SERVER_ERROR);
     }
     Object.assign(foundUser, user);
+    foundUser.status = Status[Status.ACTIVE];
+    foundUser.password = hash;
     Logger.debug(`AuthServ - signUp assigned object ${JSON.stringify(foundUser)}`);
 
-    return this.usersService.findByIDAndUpdate(foundUser.id, {...foundUser, status: Status.ACTIVE.toString()});
+    return this.usersService.findByIDAndUpdate(foundUser.id, foundUser);
   }
 }
