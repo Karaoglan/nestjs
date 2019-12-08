@@ -34,7 +34,6 @@ async function bootstrap() {
   }
 
   // Log current url of app
-  
   Logger.log(
     `Swagger UI: http://localhost:${port}${globalPrefix}`,
   );

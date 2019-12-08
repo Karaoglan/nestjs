@@ -1,10 +1,11 @@
 import { Connection } from 'mongoose';
 import { CompanySchema } from './schemas/company.schema';
+import { Constants } from '../../config';
 
 export const companyProviders = [
   {
-    provide: 'COMPANY',
+    provide: Constants.COMPANY_MODEL_PROVIDER,
     useFactory: (connection: Connection) => connection.model('Company', CompanySchema),
-    inject: ['DATABASE_CONNECTION'],
+    inject: [Constants.DB_PROVIDER],
   },
 ];

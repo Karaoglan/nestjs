@@ -1,9 +1,12 @@
 import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from '../users/dto/user.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { CreateUserDto } from '../users/dto/create.user.dto';
+import { UserSignupDto } from './dto/user-signup.dto';
+import { Status } from '../users/interfaces/user.status.enum';
 
 @Injectable()
 export class AuthService {
@@ -16,14 +19,17 @@ export class AuthService {
     Logger.log(`AuthServ - validaUse ${tckn}, ${pass}`);
 
     const user = await this.usersService.findByTCKN(tckn);
-    if (user && user.password === pass) {
-      // const { password, ...result } = user;
-      return user;
+
+    if (user) {
+      const isValid = await bcrypt.compare(pass, user.password);
+      const userLogin: UserLoginDto = null;
+      Object.assign(userLogin, user);
+      return isValid ? userLogin : null;
     }
     return null;
   }
 
-  async login(user: UserLoginDto): Promise<UserLoginDto> {    
+  async login(user: UserLoginDto): Promise<UserLoginDto> {
     Logger.log(`AuthServ - login ${JSON.stringify(user)}`);
 
     const payload = { password: user.password, tckn: user.tckn };
@@ -31,28 +37,27 @@ export class AuthService {
       token: this.jwtService.sign(payload),
     };
   }
-  
-  async signUp(user: CreateUserDto): Promise<UserDto> {    
-    Logger.log(`AuthServ - signUp ${JSON.stringify(user)}`);
 
-    // use bcyrpt
+  async signUp(user: UserSignupDto): Promise<UserSignupDto> {
+    Logger.log(`AuthServ - signUp ${JSON.stringify(user)}`);
 
     if (user.password !== user.confirmPassword) {
       // throw not match
-      throw new HttpException('Bad Req', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Password do not match', HttpStatus.BAD_REQUEST);
     }
 
     const foundUser = await this.usersService.findByTCKN(user.tckn);
 
-    if (foundUser) {
-      throw new HttpException('Conflict', HttpStatus.CONFLICT);
+    if (!foundUser) {
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
     }
+    const hash = await bcrypt.hash(user.password, 8);
+    if (!hash) {
+      throw new HttpException('could not crypt hash', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    Object.assign(foundUser, user);
+    Logger.debug(`AuthServ - signUp assigned object ${JSON.stringify(foundUser)}`);
 
-    let userDto: UserDto;
-    Object.assign(userDto, user)
-
-    return userDto;
+    return this.usersService.findByIDAndUpdate(foundUser.id, {...foundUser, status: Status.ACTIVE.toString()});
   }
-
-
 }

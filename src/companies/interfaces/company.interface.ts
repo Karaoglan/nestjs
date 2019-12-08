@@ -1,13 +1,13 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
 export interface Company extends Document {
-  tckn: String,
-  name: String,
-  surname: String,
-  email: String,
-  status: String,
-  phone_number: String,
-  company_id: String,
-  password: String,
-  eth_address: String,
+  tckn: string;
+  name: string;
+  surname: string;
+  email: string;
+  status: string,
+  phone_number: string;
+  company_id: string;
+  password: string;
+  eth_address: string;
 }

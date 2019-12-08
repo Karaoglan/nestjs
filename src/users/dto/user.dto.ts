@@ -4,6 +4,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UserDto {
 
 	@ApiProperty()
+	readonly id: string;
+
+	@ApiProperty()
 	@IsDefined()
 	readonly tckn: string;
 
@@ -25,12 +28,9 @@ export class UserDto {
 	@IsDefined()
 	readonly companyId: string;
 
-	@IsDefined()
-	readonly password: string;
-	
-	@IsString()
-	@IsDefined()
-	readonly eth_address: string;
+	readonly password?: string;
+
+	readonly ethAddress?: string;
 
 	@IsEmail(undefined, {
     message: "Email address must be valid mail"

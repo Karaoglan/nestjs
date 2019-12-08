@@ -1,13 +1,13 @@
 import { Model } from 'mongoose';
-import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Logger, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { CompanyDto } from './dto/company.dto';
-import { InjectModel } from '@nestjs/mongoose';
 import { Company } from './interfaces/company.interface';
+import { Constants } from '../../config';
 
 @Injectable()
 export class CompaniesService {
-  
-  constructor(@InjectModel('Company') private readonly companyModel: Model<Company>) {}
+
+  constructor(@Inject(Constants.COMPANY_MODEL_PROVIDER) private readonly companyModel: Model<Company>) {}
 
   async create(company: CompanyDto): Promise<CompanyDto> {
     Logger.log(`CompaniesService - create ${JSON.stringify(company)}`);
@@ -23,13 +23,13 @@ export class CompaniesService {
 
   async findAll(): Promise<CompanyDto[] | []> {
     Logger.log(`CompaniesService - findAll`);
-      
+
     return await this.companyModel.find().exec();
   }
 
   async findAllBasic(): Promise<CompanyDto[] | []> {
     Logger.log(`CompaniesService - findAllBasic`);
-      
+
     return await this.companyModel.find({}, 'title').exec();
   }
 
@@ -40,6 +40,6 @@ export class CompaniesService {
 
   async update(id: string, company: CompanyDto): Promise<CompanyDto> {
     Logger.log(`CompaniesService - update ${id} - ${JSON.stringify(company)}`);
-    return this.companyModel.findByIdAndUpdate(id, company, { new: true });  
+    return this.companyModel.findByIdAndUpdate(id, company, { new: true });
   }
 }

@@ -1,5 +1,4 @@
-
-export class CreateUserDto {
+export class UserSignupDto {
   readonly tckn?: string;
   readonly password?: string;
   readonly confirmPassword?: string;
