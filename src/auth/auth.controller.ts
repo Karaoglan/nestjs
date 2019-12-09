@@ -1,21 +1,22 @@
 import { Controller, UseGuards, Body, Post, Logger, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthService } from './auth/auth.service';
-import { UserDto } from './users/dto/user.dto';
-import { UserLoginDto } from './auth/dto/user-login.dto';
-import { CreateUserDto } from './users/dto/create.user.dto';
-import { UserSignupDto } from './auth/dto/user-signup.dto';
+import { AuthService } from './auth.service';
+import { UserLoginDto } from './dto/user-login.dto';
+import { UserSignupDto } from './dto/user-signup.dto';
+import { UserDto } from '../users/dto/user.dto';
+import { User } from 'src/users/interfaces/user.interface';
+import { UserLoginResDto } from './dto/user-login.res.dto';
 
 @Controller()
-export class AppController {
+export class AuthController {
 
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
   @UseGuards(AuthGuard('local'))
-  async login(@Request() req): Promise<UserLoginDto> {
+  async login(@Request() req): Promise<UserLoginResDto> {
     Logger.log(`AppCtrl - login ${JSON.stringify(req.user)}`);
-    return this.authService.login(req.user as UserLoginDto);
+    return this.authService.login(req.user);
   }
 
   @Post('/signUp')

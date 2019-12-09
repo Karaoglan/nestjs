@@ -1,6 +1,6 @@
+import { IsDefined } from "class-validator";
+
 export class UserLoginDto {
-	readonly tckn: string;
-	readonly password: string;
-  readonly rememberMe?: boolean;
-  readonly token?: string;
+	@IsDefined() readonly tckn: string;
+	@IsDefined() readonly password: string;
 }

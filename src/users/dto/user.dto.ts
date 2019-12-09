@@ -4,11 +4,10 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UserDto {
 
 	@ApiProperty()
-	readonly id: string;
-
-	@ApiProperty()
 	@IsDefined()
 	readonly tckn: string;
+
+	//readonly id: string;
 
 	@MaxLength(100, {
 		message: "name is too long"

@@ -3,6 +3,7 @@ import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiHeader, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { User } from 'src/users/interfaces/user.interface';
 
 @ApiBearerAuth()
 @ApiTags('cats')
