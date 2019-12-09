@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   async login(user: UserLoginDto): Promise<UserLoginDto> {
-    Logger.log(`AuthServ - login ${JSON.stringify(user)}`);
+    Logger.log(`AuthService - login ${JSON.stringify(user)}`);
 
     const payload = { password: user.password, tckn: user.tckn };
     return { ...user,
