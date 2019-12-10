@@ -1,12 +1,10 @@
-declare const module: any;
-
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const globalPrefix = '/api';
@@ -27,11 +25,6 @@ async function bootstrap() {
 
   await app.listen(port);
   Logger.log('bootstrap');
-
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
 
   // Log current url of app
   Logger.log(
