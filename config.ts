@@ -3,4 +3,5 @@ export const Constants = {
   DB_PROVIDER: 'DbConnectionToken',
   USER_MODEL_PROVIDER: 'UserModelToken',
   COMPANY_MODEL_PROVIDER: 'CompanyModelToken',
+  PARAMETER_MODEL_PROVIDER: 'ParameterModelToken',
 };
