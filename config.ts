@@ -4,4 +4,5 @@ export const Constants = {
   USER_MODEL_PROVIDER: 'UserModelToken',
   COMPANY_MODEL_PROVIDER: 'CompanyModelToken',
   PARAMETER_MODEL_PROVIDER: 'ParameterModelToken',
+  PARAMETER_ITEM_MODEL_PROVIDER: 'ParameterItemModelToken'
 };

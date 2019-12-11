@@ -2,6 +2,7 @@ import { Controller, Post, Body, UseGuards, Logger, Get, Delete, Param, Put } fr
 import { ParameterDto } from './dto/parameter.dto';
 import { ParametersService } from './parameters.service';
 import { AuthGuard } from '@nestjs/passport';
+import { ParameterItemDto } from './dto/parameterItem.dto';
 
 @Controller('parameters')
 export class ParametersController {
@@ -29,6 +30,21 @@ export class ParametersController {
 
     return this.parametersService.create(parameter);
   }
+
+  //@UseGuards(AuthGuard('jwt'))
+  @Post('/parameterItems')
+  createItem(@Body() parameterItem: ParameterItemDto): Promise<ParameterItemDto> {
+    Logger.log(`CompCtrl - createComp ${JSON.stringify(parameterItem)}`);
+  
+    return this.parametersService.createItem(parameterItem);
+  }
+
+    //@UseGuards(AuthGuard('jwt'))
+    @Get('/parameterItems/:id')
+    findParamItemById(@Param() params): Promise<ParameterItemDto[] | []> {
+      Logger.log(`ParamCtrl - get parameter by id: ${params.id}`);
+      return this.parametersService.findParamItemById(params.id);
+    }
 
   //@UseGuards(AuthGuard('jwt'))
   @Delete(':id')
