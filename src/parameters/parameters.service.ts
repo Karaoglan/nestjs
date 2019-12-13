@@ -60,4 +60,19 @@ export class ParametersService {
     return await this.parameterModel.findByIdAndRemove(id).exec();
   }
 
+  async deleteParamItemById(id: string): Promise<ParameterItemDto> {
+    Logger.log(`ParametersService - delete ${id}`);
+    return await this.parameterItemModel.findByIdAndRemove(id).exec();
+  }
+
+  async update(id: string, parameter: ParameterDto): Promise<ParameterDto> {
+    Logger.log(`ParametersService - update ${id} - ${JSON.stringify(parameter)}`);
+    return this.parameterModel.findByIdAndUpdate(id, parameter, { new: true });
+  }
+
+  async updateParamItemById(id: string, parameterItem: ParameterItemDto): Promise<ParameterItemDto> {
+    Logger.log(`ParametersService - updateParamItem ${id} - ${JSON.stringify(parameterItem)}`);
+    return this.parameterItemModel.findByIdAndUpdate(id, parameterItem, { new: true });
+  }
+
 }
